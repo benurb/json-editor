@@ -71,7 +71,7 @@ JSONEditor.defaults.editors.upload = JSONEditor.AbstractEditor.extend({
     }
 
     this.preview.innerHTML += '<br>';
-    var uploadButton = this.getButton('Upload', 'upload', 'Upload');
+    var uploadButton = this.getButton('Hochladen', 'upload', 'Hochladen');
     this.preview.appendChild(uploadButton);
     uploadButton.addEventListener('click',function(event) {
       event.preventDefault();
