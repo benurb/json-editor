@@ -1,4 +1,7 @@
 var JSONEditor = function(element,options) {
+  if (!(element instanceof Element)) {
+    throw new Error('element should be an instance of Element');
+  }
   options = $extend({},JSONEditor.defaults.options,options||{});
   this.element = element;
   this.options = options;
@@ -328,7 +331,7 @@ JSONEditor.prototype = {
       }
     };
     
-    if(schema.$ref && schema.$ref.substr(0,1) !== "#" && !this.refs[schema.$ref]) {
+    if(schema.$ref && typeof schema.$ref !== "object" && schema.$ref.substr(0,1) !== "#" && !this.refs[schema.$ref]) {
       refs[schema.$ref] = true;
     }
     
