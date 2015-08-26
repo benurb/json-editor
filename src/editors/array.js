@@ -347,7 +347,8 @@ JSONEditor.defaults.editors.array = JSONEditor.AbstractEditor.extend({
   },
   refreshValue: function(force) {
     var self = this;
-    var oldi = this.value? this.value.length : 0;
+    var oldi = this.length || 0;
+    this.length = this.rows && this.rows.length;
     this.value = [];
 
     $each(this.rows,function(i,editor) {
