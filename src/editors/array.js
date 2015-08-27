@@ -668,7 +668,6 @@ JSONEditor.defaults.editors.array = JSONEditor.AbstractEditor.extend({
     }
 
     if (!(this.options.disable_delete_all_button || this.jsoneditor.options.disable_delete_all_button)) {
-      console.log("ADD REMOVE ALL");
       this.remove_all_rows_button = this.getButton(self.jsoneditor.translate('button_text_delete_all'),'delete',self.jsoneditor.translate('button_title_delete_all'));
       this.remove_all_rows_button.addEventListener('click',function(e) {
         e.preventDefault();
