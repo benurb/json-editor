@@ -3781,7 +3781,10 @@ JSONEditor.defaults.editors.array = JSONEditor.AbstractEditor.extend({
       var i = self.rows.length;
       if(self.row_cache[i]) {
         self.rows[i] = self.row_cache[i];
-        self.rows[i].setValue(self.rows[i].getDefault());
+        // Disables commit fb03f128973b18116b189d69e4d12ad937b6d2e4, issue https://github.com/jdorn/json-editor/issues/292
+        // cached object should be reused, but its data removed. This fails, because there is no correct support i.e.
+        // in object-editor to return a valid default object
+        // self.rows[i].setValue(self.rows[i].getDefault());
         self.rows[i].container.style.display = '';
         if(self.rows[i].tab) self.rows[i].tab.style.display = '';
         self.rows[i].register();
