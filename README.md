@@ -304,8 +304,10 @@ The currently supported themes are:
 *  foundation5
 *  jqueryui
 
-The default theme is `html`, which doesn't use any special class names or styling.
+The default theme is `html`, which does not rely on an external framework.
 This default can be changed by setting the `JSONEditor.defaults.options.theme` variable.
+
+If you want to specify your own styles with CSS, you can use `barebones`, which includes almost no classes or inline styles.
 
 ```javascript
 JSONEditor.defaults.options.theme = 'foundation5';
@@ -416,15 +418,16 @@ Simple text link
 }
 ```
 
-Make link download when clicked (can also )
+Make link download when clicked
 ```js+jinja
 {
   "title": "Document filename",
   "type": "string",
   "links": [
     {
+      "rel": "Download File",
       "href": "/documents/{{self}}",
-      // Can also specify a filename string here instead of `true`
+      // Can also set `download` to a string as per the HTML5 spec
       "download": true
     }
   ]
