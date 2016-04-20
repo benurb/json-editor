@@ -68,12 +68,26 @@ JSONEditor.defaults.editors.select = JSONEditor.AbstractEditor.extend({
         self.enum_display[i] = ""+(display[i] || option);
         self.enum_values[i] = self.typecast(option);
       });
+
+      if(!this.isRequired()){
+        self.enum_display.unshift(' ');
+        self.enum_options.unshift('undefined');
+        self.enum_values.unshift(undefined);
+      }
+            
     }
     // Boolean
     else if(this.schema.type === "boolean") {
       self.enum_display = this.schema.options && this.schema.options.enum_titles || ['true','false'];
       self.enum_options = ['1',''];
       self.enum_values = [true,false];
+      
+      if(!this.isRequired()){
+        self.enum_display.unshift(' ');
+        self.enum_options.unshift('undefined');
+        self.enum_values.unshift(undefined);
+      }
+    
     }
     // Dynamic Enum
     else if(this.schema.enumSource) {
@@ -166,13 +180,20 @@ JSONEditor.defaults.editors.select = JSONEditor.AbstractEditor.extend({
   onInputChange: function() {
     var val = this.input.value;
 
-    var sanitized = val;
+    var new_val;
+    // Invalid option, use first option instead
     if(this.enum_options.indexOf(val) === -1) {
-      sanitized = this.enum_options[0];
+      new_val = this.enum_values[0];
+    }
+    else {
+      new_val = this.enum_values[this.enum_options.indexOf(val)];
     }
 
-    this.value = this.enum_values[this.enum_options.indexOf(val)];
+    // If valid hasn't changed
+    if(new_val === this.value) return;
 
+    // Store new value and propogate change event
+    this.value = new_val;
     this.onChange(true);
   },
   setupSelect2: function() {
@@ -183,6 +204,10 @@ JSONEditor.defaults.editors.select = JSONEditor.AbstractEditor.extend({
       this.select2 = window.jQuery(this.input).select2(options);
       var self = this;
       this.select2.on('select2-blur',function() {
+        self.input.value = self.select2.select2('val');
+        self.onInputChange();
+      });
+      this.select2.on('change',function() {
         self.input.value = self.select2.select2('val');
         self.onInputChange();
       });
@@ -230,7 +255,7 @@ JSONEditor.defaults.editors.select = JSONEditor.AbstractEditor.extend({
             if(this.enumSource[i].filter) {
               var new_items = [];
               for(j=0; j<items.length; j++) {
-                if(this.enumSource[i].filter({i:j,item:items[j]})) new_items.push(items[j]);
+                if(this.enumSource[i].filter({i:j,item:items[j],watched:vars})) new_items.push(items[j]);
               }
               items = new_items;
             }
