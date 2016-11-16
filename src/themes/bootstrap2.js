@@ -118,7 +118,7 @@ JSONEditor.defaults.themes.bootstrap2 = JSONEditor.AbstractTheme.extend({
       input.errmsg.style.display = '';
     }
 
-    input.errmsg.textContent = text;
+    input.errmsg.innerHTML = text;
   },
   removeInputError: function(input) {
     if(!input.errmsg) return;
