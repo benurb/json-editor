@@ -170,6 +170,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-concat-sourcemap');
 
   // Default task.
-  grunt.registerTask('default', ['jshint:beforeconcat','clean','concat_sourcemap','copy','jshint:afterconcat','uglify']);
+  grunt.registerTask('default', ['clean','concat_sourcemap','copy','uglify']);
 
 };
